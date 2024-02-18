@@ -6,8 +6,18 @@ const app = express();
 app.use(express.json());
 app.set("json spaces", 2);
 
+// Set up the templating engine to build HTML for the front end.
+app.set("views", path.join(__dirname, "./views"));
+app.set("view engine", "ejs");
+
+// Have express server static content( images, CSS, browser JS) from the public
+app.use(express.static(path.join(__dirname, "./public")));
+
 //route logic
-app.use("/api", require("./routes/api_routes"));
+app.use("/api/v0", require("./routes/api_routes"));
+
+//render logic
+app.use("/", require("./routes/render"));
 
 /*
 potential features
@@ -21,62 +31,6 @@ Note to self regarding API services in used.
 2) Whatismybrowser
 3) domain lookup  
 */
-app.use("/", (req, res) => {
-	//https://stackoverflow.com/questions/10849687/express-js-how-to-get-remote-client-address
-	//var ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
-	var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-	// console.log(ip);
-	req.headers["user-agent"];
-
-	//res html
-	res.send(`<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>IPA.wtf</title>
-        <style>
-            body {
-                background-color: black;
-                color: white; /* Set text color to white for better visibility */
-            }
-        </style>
-    </head>
-    <body>
-        <center><h1>Your IP:</h1></center>
-        <center><h2>${ip}</h2></center>
-
-        <center><h1>Your User Agent:</h1></center>
-
-        <center><h1>Your hostname:</h1></center>
-
-        <center><h1>Your ISP:</h1></center>
-
-        <center><h1>Your Location:</h1></center>
-
-        <br>
-        <br>
-        <br>
-
-        <center><h2>Our links and Services:</h2></center>
-        <center><h2><a href="https://github.com/Newtbot/IPa">Our GitHub</a></h2></center>
-        <center><h2><a href="#">JSON</a></h2></center>
-        <center><h2><a href="#">YAML</a></h2></center>
-        <center><h2><a href="#">TEXT</a></h2></center>
-
-        <br>
-        <br>
-        <br>
-
-        <center><h2> About us </h2></center>
-        <center><h2>IPa.wtf is a simple service that provides information about 
-        your IP address and User Agent. We also provide a few other services 
-        such as IP and domain lookups. 
-        </h2></center>
-
-    </body>
-    </html>`);
-});
 
 // Catch 404 and forward to error handler. If none of the above routes are
 // used, this is what will be called.
