@@ -23,6 +23,9 @@ app.use("/", require("./routes/render"));
 potential features
 1) accept text / excel file and look up ip addresses 
 2) accept text / excel file and look up domain names
+3) rate limiter
+4) cache
+5) db support for optimization
 */
 
 /*

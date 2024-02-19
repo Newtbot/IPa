@@ -64,12 +64,12 @@ app.api = (function (app) {
 		$.ajax({
 			type: "POST",
 			url: baseURL + url,
-			headers: {
-				//register will getr undefined token
-				//login will get valid token
-				"auth-token": app.auth.getToken(),
-			},
-			data: JSON.stringify(data),
+			// headers: {
+			// 	//register will getr undefined token
+			// 	//login will get valid token
+			// 	"auth-token": app.auth.getToken(),
+			// },
+			// data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			complete: function (res, text) {
@@ -86,9 +86,9 @@ app.api = (function (app) {
 		$.ajax({
 			type: "PUT",
 			url: baseURL + url,
-			headers: {
-				"auth-token": app.auth.getToken(),
-			},
+			// headers: {
+			// 	"auth-token": app.auth.getToken(),
+			// },
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
@@ -107,9 +107,9 @@ app.api = (function (app) {
 		$.ajax({
 			type: "delete",
 			url: baseURL + url,
-			headers: {
-				"auth-token": app.auth.getToken(),
-			},
+			// headers: {
+			// 	"auth-token": app.auth.getToken(),
+			// },
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			complete: function (res, text) {
@@ -126,9 +126,9 @@ app.api = (function (app) {
 		$.ajax({
 			type: "GET",
 			url: baseURL + url,
-			headers: {
-				"auth-token": app.auth.getToken(),
-			},
+			// headers: {
+			// 	"auth-token": app.auth.getToken(),
+			// },
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			complete: function (res, text) {
@@ -144,143 +144,28 @@ app.api = (function (app) {
 	return { post: post, get: get, put: put, delete: remove };
 })(app);
 
-//socket.io
-//socket.io
-app.socket = (function (app) {
-	//need to replace with domain name of server when published
-	var socket = io();
-	socket.on("disconnect", () => {
-		console.log("disconnected");
-	});
+// //socket.io
+// //socket.io
+// app.socket = (function (app) {
+// 	//need to replace with domain name of server when published
+// 	var socket = io();
+// 	socket.on("disconnect", () => {
+// 		console.log("disconnected");
+// 	});
 
-	socket.on('connect', ()=>{
-		console.info('WS connected');
-	})
+// 	socket.on('connect', ()=>{
+// 		console.info('WS connected');
+// 	})
 
-	socket.io.on("reconnect", () => {
-		console.log("reconnected");
-	});
-	socket.io.on("connect_error", (err) => {
-		console.log(err);
-	});
-	return socket;
-})(app);
+// 	socket.io.on("reconnect", () => {
+// 		console.log("reconnected");
+// 	});
+// 	socket.io.on("connect_error", (err) => {
+// 		console.log(err);
+// 	});
+// 	return socket;
+// })(app);
 
-//sensor data
-app.sensordata = (function (app) {
-
-
-})(app);
-
-
-app.auth = (function (app) {
-	var user = {};
-	function setToken(token) {
-		localStorage.setItem("APIToken", token);
-	}
-
-	function getToken() {
-		return localStorage.getItem("APIToken");
-	}
-
-	function isLoggedIn(callback) {
-		
-		if (getToken()) {
-			return app.api.get("user/me", function (error, data) {
-				if (!error) app.auth.user = data;
-				return callback(error, data);
-			});
-		} else {
-			callback(true);
-		}
-	}
-
-	function logOut(callback) {
-		console.log("Logging out");
-		$.ajax({
-			type: "DELETE",
-			url: "/api/v0/user/logout",
-			headers: {
-				"auth-token": app.auth.getToken(),
-			},
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			complete: function (res, text) {
-				callback(
-					text !== "success" ? res.statusText : null,
-					JSON.parse(res.responseText),
-					res.status
-				);
-			},
-		});
-
-		localStorage.removeItem("APIToken");
-		callback();
-	}
-
-	function forceLogin() {
-		app.auth.isLoggedIn(function (error, isLoggedIn) {
-			if (error || !isLoggedIn) {
-				app.auth.logOut(function () {
-					window.location.href = "/login";
-				});
-			}
-		});
-	}
-
-	function logInRedirect() {
-		window.location.href =
-			//window.location.href = location.href.replace(location.origin+'/login', '') || '/'
-			//location.href.replace(location.replace(`/login`)) || "/";
-			window.location.href = "/login"
-	}
-
-	function homeRedirect() {
-		//window.location.href = location.href.replace(location.replace(`/`)) || "/";
-		// location.replace(`/`);
-		window.location.href = "/"
-	}
-
-	function profileRedirect() {
-		// location.replace(`/profile`);
-		window.location.href = "/profile"
-	}
-
-	function checkEmailRedirect(){
-		// location.replace(`/checkemail`);
-		window.location.href = "/checkemail"
-	}
-
-	return {
-		getToken: getToken,
-		setToken: setToken,
-		isLoggedIn: isLoggedIn,
-		logOut: logOut,
-		forceLogin,
-		logInRedirect,
-		homeRedirect,
-		profileRedirect,
-		checkEmailRedirect,
-	};
-})(app);
-
-app.user = (function (app) {
-	//delete profile
-	function deleteProfile() {
-		app.api.delete("user/delete", function (error, data) {
-			if (error) {
-				app.util.actionMessage(error.message, $("#deleteProfile"), "danger");
-			} else {
-				app.auth.logOut(function () {
-					location.replace(`/login`);
-				});
-			}
-		});
-	}
-	return {
-		deleteProfile,
-	};
-})(app);
 
 //ajax form submit and pass to api
 function formAJAX(btn, del) {

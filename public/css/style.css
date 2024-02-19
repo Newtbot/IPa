@@ -1,0 +1,20 @@
+body {
+    background-color: black;
+    color: white; /* Set text color to white for better visibility */
+}
+
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    /* margin-left: px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
