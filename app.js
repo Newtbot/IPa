@@ -38,10 +38,10 @@ Note to self regarding API services in used.
 // Catch 404 and forward to error handler. If none of the above routes are
 // used, this is what will be called.
 app.use(function (req, res, next) {
-	//application/json; charset=utf-8
 	var err = new Error("Not Found");
 	err.message = "Page not found";
 	err.status = 404;
+	res.json({ error: err.message });
 	next(err);
 });
 app.use(function (err, req, res, next) {
