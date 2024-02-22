@@ -1,0 +1,16 @@
+[Unit]
+Description=ipa.wtf nodejs service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+Environment="NODE_ENV=production"
+
+ExecStart=/usr/bin/env node /home/nbot/MP/IPa/bin/www
+
+[Install]
+WantedBy=multi-user.target
