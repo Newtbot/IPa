@@ -12,6 +12,7 @@ const swaggerDefinition = {
       name: 'Licensed Under MIT',
       url: 'https://spdx.org/licenses/MIT.html',
     },
+
   },
 };
 
