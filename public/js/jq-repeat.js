@@ -1,3 +1,9 @@
+/*
+Author William Mantly Jr <wmantly@gmail.com>
+https://github.com/wmantly/jq-repeat
+MIT license
+*/
+
 (function($, Mustache){
 	'use strict';
 		if (!$.scope) {
@@ -7,7 +13,7 @@
 		var make = function( element ){
 	
 			//construct array
-			function makeArray( input , index ){
+			function makeArray( input ){
 	
 				var result = [];
 	
@@ -24,20 +30,6 @@
 					enumerable: false,
 					configurable: true
 				} );
-	
-				Object.defineProperty( result, "__jq_index", {
-					value: index,
-					writable: true,
-					enumerable: false,
-					configurable: true
-				} );
-	
-				function removeEmpty(){
-					if(result.__jq_empty){
-						result.__jq_empty.remove();
-						delete result.__jq_empty;
-					}
-				}
 	
 				result.splice = function(inputValue, ...args){
 					//splice does all the heavy lifting by interacting with the DOM elements.
@@ -102,7 +94,6 @@
 	
 					//if there are fields to add to the array, add them
 					if( toAdd.length > 0 ){
-						removeEmpty()
 	
 						//$.each( toAdd, function( key, value ){
 						for(var I = 0; I < toAdd.length; I++){
@@ -110,7 +101,7 @@
 							//figure out new elements index
 							var key = I + index;
 							// apply values to template
-							var render = Mustache.render( this.__rq_template, {__id:I, ...toAdd[I]} );
+							var render = Mustache.render( this.__rq_template, toAdd[I] );
 							
 							//set call name and index keys to DOM element
 							var $render = $( render ).addClass( 'jq-repeat-'+ this.__repeatId ).attr( 'jq-repeat-index', key );
@@ -152,11 +143,6 @@
 					//return new array length
 					return this.length;
 				};
-	
-				result.unshift = function(item){
-					return this.splice(0, 0, item);
-				};
-	
 				result.pop = function(){
 					//remove and return array element
 	
@@ -189,9 +175,9 @@
 					return temp;
 				};
 				result.indexOf =  function( key, value ){
-					if( !value ){
+					if( typeof value !== 'string' ){
 						value = arguments[0];
-						key = this.__jq_index;
+						key = this.__index;
 					}
 					for ( var index = 0; index < this.length; ++index ) {
 						if( this[index][key] === value ){
@@ -212,14 +198,12 @@
 						return this.splice(0, 1, key);
 					}
 	
-					if( !update ){
+					if( typeof value !== 'string' ){
 						update = arguments[1];
 						value = arguments[0];
-						key = this.__jq_index;
+						key = this.__index;
 					}
-	
 					var index = this.indexOf( key, value );
-					
 					if(index === -1) {
 						return [];
 					}
@@ -241,7 +225,7 @@
 					if( type === 'object' ){
 						result.push( value );
 					}else if( type === 'string' ){
-						Object.defineProperty( result, "__jq_index", {
+						Object.defineProperty( result, "__index", {
 							value: value,
 							writable: true,
 							enumerable: false,
@@ -263,23 +247,19 @@
 	
 			var $this = $( element ); 
 			var repeatId = $this.attr( 'jq-repeat' );
-			var index = $this.attr( 'jq-repeat-index' );
 			var tempId = repeatId + 'Template';
 			var templateId = $( '#' + tempId ).html();
-			var empty = $(`[jq-repeat-defualt="${repeatId}"]`);
-			
 	
 			$this.removeAttr( 'jq-repeat' );
-			$this.removeAttr( 'jq-repeat-index' );
-			var template = element.outerHTML
+			 var template = element.outerHTML
 	
 			$this.replaceWith( '<script type="x-tmpl-mustache" id="' + tempId + '" class="jq-repeat-' + repeatId + ' " jq-repeat-index="holder"><\/script>' );
 			
 			Mustache.parse(templateId);   // optional, speeds up future uses
 	
-			$.scope[repeatId] = makeArray($.scope[repeatId], index);
-			$.scope[repeatId].__rq_template = template;
-			$.scope[repeatId].__jq_empty = empty;
+	
+			$.scope[repeatId] = makeArray($.scope[repeatId]);
+			$.scope[repeatId].__rq_template = template
 		};
 	
 		$( document ).ready( function(){

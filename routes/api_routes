@@ -1,6 +1,6 @@
 "use strict";
 var router = require("express").Router();
 
-router.use("/lookup", require("./api"));
+router.use("/service", require("./api"));
 
 module.exports = router;

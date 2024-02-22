@@ -1,9 +1,12 @@
 const express = require("express");
 const path = require("path");
+const { limiter } = require("./modules/rateLimiter");
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+app.use(limiter);
+
 app.set("json spaces", 2);
 
 // Set up the templating engine to build HTML for the front end.
@@ -18,6 +21,14 @@ app.use("/api/v0", require("./routes/api_routes"));
 
 //render logic
 app.use("/", require("./routes/render"));
+
+// Hold list of functions to run when the server is ready
+app.onListen = [
+	function () {
+		console.log("Express is ready");
+	},
+];
+
 
 /*
 potential features

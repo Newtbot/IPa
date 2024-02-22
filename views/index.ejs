@@ -1,6 +1,13 @@
 <%- include('top') %>
     <script>
+        $(document).ready(async function () {
+            app.api.get('service/json', function (error, data) {
+                console.log(data);
+                console.log(data.ip);
+                $.scope.ipInfo.update(data);
 
+            });
+        });
     </script>
 
     <body>
@@ -14,38 +21,40 @@
         </div>
 
         </div>
-        <div class="main-container">
-        <br>
-        <h1>Your IP:</h1>
-        <br>
-        <h1>Your Browser:</h1>
-        <br>
-        <h1>Your hostname:</h1>
-        <br>
-        <h1>Your ISP:</h1>
-        <br>
-        <h1>Your Location:</h1>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-        <br>
-        <br>       
-         <br>
-
-
-        <br>
-        <h2>Our links and Services:</h2>
-        <h2><a href="https://github.com/Newtbot/IPa">Our GitHub</a></h2>
-        <h2><a href="#">JSON</a></h2>
-        <h2><a href="#">YAML</a></h2>
-        <h2><a href="#">TEXT</a></h2>
+        <!-- <div class="services-bar" jq-repeat="LatestSensorData">-->
+        <div class="main-container" jq-repeat="ipInfo">
+            <br>
+            <h1>Your IP:</h1>
+            <h3>{{ data.ip }}</h3>
+            <br>
+            <h1>Your Browser:</h1>
+            <h3>{{ data.browser }}</h3>
+            <br>
+            <h1>Your hostname:</h1>
+            <h3>{{ data.hostname }}</h3>
+            <br>
+            <h1>Your ISP:</h1>
+            <h3>{{ data.asn_org }}</h3>
+            <br>
+            <h1>Your Location:</h1>
+            <h3>{{ data.city }}, {{ data.country }}</h3>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2>Our links and Services:</h2>
+            <h2><a href="https://github.com/Newtbot/IPa">Our GitHub</a></h2>
+            <h2><a href="api/v0/service/json">JSON</a></h2>
+            <h2><a href="api/v0/service/yaml">YAML</a></h2>
+            <h2><a href="api/v0/service/text">TEXT</a></h2>
         </div>
 
     </body>
 
-<%- include('bot') %>
-
+    <%- include('bot') %>
