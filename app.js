@@ -12,6 +12,8 @@ app.use(limiter);
 
 app.set("json spaces", 2);
 
+app.set('trust proxy', 1)
+
 // Set up the templating engine to build HTML for the front end.
 app.set("views", path.join(__dirname, "./views"));
 app.set("view engine", "ejs");
