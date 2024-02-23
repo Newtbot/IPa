@@ -14,11 +14,12 @@ async function parseIP(ip) {
 	//download db on run
 	// await geolite2.downloadDbs("../database/model/");
 
-	let asnLookup = await geolite2.open("geolite2-asn", (path) => {
+	//open db
+	let asnLookup = await geolite2.open("GeoLite2-ASN", (path) => {
 		return maxmind.open(path);
 	});
 
-	let cityLookup = await geolite2.open("geolite2-city", (path) => {
+	let cityLookup = await geolite2.open("GeoLite2-City", (path) => {
 		return maxmind.open(path);
 	});
 
