@@ -4,7 +4,8 @@
   "description": "wtfismyip but less vulgar ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preload": "node -e \"import('geolite2-redist').then(geolite => geolite.downloadDbs())\""
   },
   "author": "",
   "license": "ISC",

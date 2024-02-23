@@ -16,10 +16,12 @@ async function parseIP(ip) {
 
 	//open db
 	let asnLookup = await geolite2.open("GeoLite2-ASN", (path) => {
+		console.log("path", path);
 		return maxmind.open(path);
 	});
 
 	let cityLookup = await geolite2.open("GeoLite2-City", (path) => {
+		console.log("path", path);
 		return maxmind.open(path);
 	});
 
