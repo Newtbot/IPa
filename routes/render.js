@@ -14,6 +14,4 @@ router.get("/tos", function (req, res, next) {
 	res.render("tos");
 });
 
-
-
 module.exports = router;
