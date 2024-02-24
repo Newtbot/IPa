@@ -2,8 +2,8 @@
     <script>
         $(document).ready(async function () {
             app.api.get('service/json', function (error, data) {
-                console.log(data);
-                console.log(data.ip);
+                // console.log(data);
+                // console.log(data.ip);
                 $.scope.ipInfo.update(data);
 
             });
