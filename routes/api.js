@@ -43,8 +43,8 @@ router.use("/json", async (req, res, next) => {
 		var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 		var userAgent = req.get("User-Agent");
 
-		// let Res = await parseIP("49.245.96.142");
-        let Res = await parseIP(ip);
+		let Res = await parseIP("49.245.96.142");
+        // let Res = await parseIP(ip);
 
         let browserRes = await parseUserAgent(userAgent);
         if (!browserRes) return false;

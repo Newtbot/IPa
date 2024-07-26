@@ -1,9 +1,6 @@
 const express = require("express");
 const path = require("path");
 const { limiter } = require("./modules/rateLimiter");
-const { swaggerSpec } = require("./modules/swagger");
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
 require("dotenv").config();
 
 const app = express();
@@ -26,9 +23,6 @@ app.use("/api/v0", require("./routes/api_routes"));
 
 //render logic
 app.use("/", require("./routes/render"));
-
-//swagger page
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Hold list of functions to run when the server is ready
 app.onListen = [
@@ -72,8 +66,8 @@ app.use(function (err, req, res, next) {
 });
 
 //listen to port
-app.listen(process.env.port, () => {
-	console.log("Server is running on port 80");
-});
+// app.listen(process.env.port, () => {
+// 	console.log("Server is running on port 80");
+// });
 
 module.exports = app;

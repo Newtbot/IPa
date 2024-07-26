@@ -1,0 +1,10 @@
+[Unit]
+Description= this will run redist.service every night
+
+[Timer]
+OnCalendar=*-*-* 01:00:00
+Persistent=true
+Unit=redist.service
+
+[Install]
+WantedBy=timers.target
