@@ -65,6 +65,16 @@ app.use(function (err, req, res, next) {
 	res.status(err.status || 500);
 });
 
+//setinterval to load mmdb files from redist
+setInterval(() => {
+	import('geolite2-redist')
+		.then(geolite => geolite.downloadDbs())
+		.catch(error => {
+			console.error('Error downloading MMDB files:', error.message);
+			console.error(error.stack);
+		});
+}, 43200000);
+
 //listen to port
 // app.listen(process.env.port, () => {
 // 	console.log("Server is running on port 80");
