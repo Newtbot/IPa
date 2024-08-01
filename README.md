@@ -1,5 +1,5 @@
 ## Website
-[(https://www.ipa.wtf/)]
+https://www.ipa.wtf
 
 ## IPA folder Structure
 * app.js which is the express application file that runs all express functions.
