@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 # 🌐 IPA.wtf - What's Your IP?
+=======
+## Website
+https://www.ipa.wtf
+>>>>>>> 6ba07ac2811fffc29a104903d1525c2409eeb52b
 
 > A fast, feature-rich IP information service with geolocation, browser detection, and WHOIS lookups built with Node.js and Express.
 
