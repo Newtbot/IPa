@@ -1,0 +1,12 @@
+[Unit]
+Description=Midnight timer to update GeoLite2 database for IPA
+Requires=ipa-geolite-update.service
+
+[Timer]
+OnCalendar=daily
+OnCalendar=*-*-* 00:00:00
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,22 @@
+[Unit]
+Description=Update GeoLite2 IP Geolocation Database for IPA
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/home/nbot/IPa
+ExecStart=/usr/bin/npm run preload
+StandardOutput=journal
+StandardError=journal
+
+# Security & Resource Management
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/home/nbot/IPa /tmp
+
+[Install]
+WantedBy=multi-user.target

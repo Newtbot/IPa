@@ -1,59 +1,174 @@
 <%- include('top') %>
+
     <script>
         $(document).ready(async function () {
             app.api.get('service/json', function (error, data) {
-                // console.log(data);
-                // console.log(data.ip);
                 $.scope.ipInfo.update(data);
             });
         });
     </script>
 
-    <body>
-        <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- <h1>IPa.wtf</h1> -->
+    <main>
+        <div class="hero-section">
+            <div class="container-lg">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <i class="fas fa-network-wired"></i> What's Your IP?
+                    </h1>
+                    <p class="hero-subtitle">Get detailed information about your internet connection</p>
                 </div>
             </div>
         </div>
 
-        </div>
-        <!-- <div class="services-bar" jq-repeat="LatestSensorData">-->
-        <div class="main-container" jq-repeat="ipInfo">
-            <br>
-            <h1>Your IP:</h1>
-            <h3>{{ ip }}</h3>
-            <br>
-            <h1>Your Browser:</h1>
-            <h3>{{ browser }}</h3>
-            <br>
-            <h1>Your Hostname:</h1>
-            <h3>{{ hostname }}</h3>
-            <br>
-            <h1>Your ISP:</h1>
-            <h3>{{ asn_org }}</h3>
-            <br>
-            <h1>Your Location:</h1>
-            <h3>{{ city }}, {{ country }}</h3>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <h2>Our links and Services:</h2>
-            <h2><a href="https://github.com/Newtbot/IPa">Our GitHub</a></h2>
-            <h2><a href="api/v0/service/json">JSON</a></h2>
-            <h2><a href="api/v0/service/yaml">YAML</a></h2>
-            <h2><a href="api/v0/service/text">TEXT</a></h2>
-        </div>
+        <div class="container-lg py-5">
+            <div class="content-wrapper" jq-repeat="ipInfo">
+                <!-- IP Info Cards Grid -->
+                <div class="row g-4 mb-5">
+                    <!-- Your IP -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-address-book"></i>
+                            </div>
+                            <div class="card-content">
+                                <p class="card-label">Your IP Address</p>
+                                <p class="card-value">{{ ip }}</p>
+                                <button class="btn-copy" onclick="copyToClipboard('{{ ip }}')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-    </body>
+                    <!-- Browser -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-browser"></i>
+                            </div>
+                            <div class="card-content">
+                                <p class="card-label">Your Browser</p>
+                                <p class="card-value">{{ browser }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hostname -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="card-content">
+                                <p class="card-label">Hostname</p>
+                                <p class="card-value">{{ hostname }}</p>
+                                <button class="btn-copy" onclick="copyToClipboard('{{ hostname }}')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ISP -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="card-content">
+                                <p class="card-label">Internet Service Provider</p>
+                                <p class="card-value">{{ asn_org }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ASN -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="card-content">
+                                <p class="card-label">ASN Number</p>
+                                <p class="card-value">{{ asn_no }}</p>
+                                <button class="btn-copy" onclick="copyToClipboard('{{ asn_no }}')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="info-card">
+                            <div class="card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="card-content">
+                                <p class="card-label">Location</p>
+                                <p class="card-value">{{ city }}, {{ country }}</p>
+                                <button class="btn-copy" onclick="copyToClipboard('{{ city }}, {{ country }}')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Export Section -->
+                <hr class="divider">
+                <div class="export-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i> Export IP Information
+                    </h2>
+                    <p class="section-subtitle">Download your IP information in different formats</p>
+                    
+                    <div class="row g-3 mt-4">
+                        <div class="col-md-6 col-lg-3">
+                            <a href="api/v0/service/json" class="export-btn" title="JSON Format">
+                                <i class="fas fa-file-code"></i>
+                                <span>JSON</span>
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a href="api/v0/service/yaml" class="export-btn" title="YAML Format">
+                                <i class="fas fa-file-code"></i>
+                                <span>YAML</span>
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a href="api/v0/service/text" class="export-btn" title="Plain Text">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Text</span>
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <a href="api/v0/service/fulljson" class="export-btn" title="Full JSON with all data">
+                                <i class="fas fa-file-circle-plus"></i>
+                                <span>Full JSON</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('.btn-copy');
+                if (btn) {
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('copied');
+                    }, 2000);
+                }
+            }).catch(err => console.error('Failed to copy:', err));
+        }
+    </script>
 
     <%- include('bot') %>
